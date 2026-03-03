@@ -1,7 +1,7 @@
 
 name: ci/cd pipeline to deploy to tomcat
 on:
-  push:
+  push
     branches: main
 jobs:
   build-deploy:
