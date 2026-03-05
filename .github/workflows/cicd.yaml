@@ -6,29 +6,33 @@ on:
       - main
 
 jobs:
-
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
 
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Setup Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '17'
 
-    - name: Build Application
-      run: mvn clean package
+      - name: Build Application
+        run: mvn clean package
 
-    - name: Deploy to DEV Server using Password
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.TOMCAT_HOST }}
-        username: ${{ secrets.TOMCAT_USER }}
-        password: ${{ secrets.TOMCAT_PASSWORD }}
-        source: "target/*.war"
-        target: "/opt/tomcat/webapps/"
+      - name: Verify WAR file
+        run: ls -l target/
+
+      - name: Deploy to DEV Server using Password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.TOMCAT_HOST }}
+          username: ${{ secrets.TOMCAT_USER }}
+          password: ${{ secrets.TOMCAT_PASSWORD }}
+          port: 22
+          source: "target/*.war"
+          target: "/opt/tomcat/webapps/"
+          debug: true
