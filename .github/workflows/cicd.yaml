@@ -24,11 +24,11 @@ jobs:
     - name: Build Application
       run: mvn clean package
 
-    - name: Deploy to DEV Server
+    - name: Deploy to DEV Server using Password
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.DEV_HOST }}
         username: ${{ secrets.DEV_USER }}
-        key: ${{ secrets.DEV_PASSWORD }}
+        password: ${{ secrets.DEV_PASSWORD }}
         source: "target/*.war"
         target: "/opt/tomcat/webapps/"
