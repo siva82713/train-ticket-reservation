@@ -26,7 +26,7 @@ jobs:
       - name: Verify WAR file
         run: ls -l target/
 
-      - name: Deploy to DEV Server using Password
+      - name: Deploy WAR to Tomcat
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.TOMCAT_HOST }}
@@ -35,4 +35,3 @@ jobs:
           port: 22
           source: "target/*.war"
           target: "/opt/tomcat/webapps/"
-          debug: true
